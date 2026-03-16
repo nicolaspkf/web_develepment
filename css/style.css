@@ -785,6 +785,11 @@ img.event-detail-img {
   font-size: 2.2rem;
 }
 
+img.team-avatar {
+  display: block;
+  object-fit: cover;
+}
+
 .team-card h3 { font-size: 1.2rem; margin-bottom: 0.25rem; }
 
 .team-card .team-role {
