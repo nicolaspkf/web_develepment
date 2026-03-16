@@ -274,3 +274,37 @@ document.querySelectorAll('.nav-logo').forEach(function (logo) {
     document.addEventListener('touchend', onEnd);
   });
 })();
+
+// =============================================
+// Auto-scrolling carousel — pauses on hover
+// =============================================
+(function () {
+  var wrapper = document.querySelector('.carousel-wrapper');
+  if (!wrapper) return;
+
+  var speed = 0.5; // px per frame
+  var paused = false;
+  var scrollDir = 1; // 1 = right, -1 = left
+
+  wrapper.addEventListener('mouseenter', function () { paused = true; });
+  wrapper.addEventListener('mouseleave', function () { paused = false; });
+  wrapper.addEventListener('touchstart', function () { paused = true; }, { passive: true });
+  wrapper.addEventListener('touchend', function () { paused = false; });
+
+  function tick() {
+    if (!paused) {
+      wrapper.scrollLeft += speed * scrollDir;
+
+      // Reverse direction at edges
+      var maxScroll = wrapper.scrollWidth - wrapper.clientWidth;
+      if (wrapper.scrollLeft >= maxScroll) {
+        scrollDir = -1;
+      } else if (wrapper.scrollLeft <= 0) {
+        scrollDir = 1;
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+})();
