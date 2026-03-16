@@ -71,6 +71,51 @@ img {
 }
 
 /* ============================================
+   Page spin on logo click
+   ============================================ */
+
+body.spin-page {
+  animation: fullPageSpin 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: center center;
+}
+
+@keyframes fullPageSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   Draggable flowers — override animation when grabbed
+   ============================================ */
+
+.hero-flower {
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.hero-flower.dragging {
+  cursor: grabbing;
+  animation: none !important;
+  z-index: 10;
+  opacity: 1 !important;
+}
+
+.hero-flower.thrown {
+  animation: none !important;
+  transition: left 1.5s cubic-bezier(0.2, 0.8, 0.3, 1),
+              top 1.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+/* ============================================
+   Nav logo wave text
+   ============================================ */
+
+.nav-logo.wave-text {
+  display: inline-flex;
+}
+
+/* ============================================
    Hover fidget: letter wave on headings
    ============================================ */
 
@@ -366,13 +411,13 @@ img {
   .hero-logo { font-size: 4rem; }
 }
 
-/* Next event — irregular blob, overlaps hero bottom-right, extends below */
+/* Next event — mostly below hero, upper-left overlaps hero bottom-right */
 .next-event-blob {
   position: absolute;
-  right: 20px;
-  bottom: -70px;
-  width: 230px;
-  height: 220px;
+  right: 30px;
+  bottom: -140px;
+  width: 240px;
+  height: 230px;
   background: var(--cyan);
   display: flex;
   align-items: center;
@@ -386,17 +431,17 @@ img {
   transition: transform 0.3s ease;
   z-index: 3;
   clip-path: polygon(
-    15% 0%,
-    85% 5%,
-    95% 15%,
-    100% 45%,
-    92% 75%,
-    80% 95%,
-    55% 100%,
-    25% 92%,
-    5% 70%,
-    0% 40%,
-    8% 12%
+    10% 5%,
+    40% 0%,
+    75% 8%,
+    95% 20%,
+    100% 50%,
+    95% 80%,
+    75% 95%,
+    45% 100%,
+    15% 90%,
+    0% 65%,
+    3% 30%
   );
 }
 
@@ -407,11 +452,11 @@ img {
 
 @media (max-width: 600px) {
   .next-event-blob {
-    width: 170px;
-    height: 160px;
+    width: 180px;
+    height: 170px;
     font-size: 1.05rem;
-    right: 5px;
-    bottom: -50px;
+    right: 10px;
+    bottom: -110px;
   }
 }
 
@@ -420,7 +465,7 @@ img {
    ============================================ */
 
 .about-section {
-  padding: 6rem 0 3rem;
+  padding: 8rem 0 3rem;
 }
 
 .about-layout {
