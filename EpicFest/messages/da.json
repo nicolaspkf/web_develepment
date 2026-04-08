@@ -9,6 +9,7 @@
       "venue": "Venue & Rejse",
       "news": "Nyheder",
       "gallery": "Galleri",
+      "shop": "Shop",
       "about": "Om EpicFest"
     },
     "cta": {
@@ -70,6 +71,10 @@
     "newsletter": {
       "title": "Bliv en del af rækkerne",
       "subtitle": "Få lineup-afsløringer, early bird-billetter og quest-opdateringer."
+    },
+    "merch": {
+      "title": "Festival Merch",
+      "availableAt": "Merchandise kan købes på festivalområdet. Priserne er vejledende."
     }
   },
   "Lineup": {
@@ -121,6 +126,25 @@
     "title": "Galleri",
     "filterByChapter": "Filtrer efter kapitel",
     "chapter": "Kapitel"
+  },
+  "Shop": {
+    "title": "Merch Shop",
+    "subtitle": "Officiel EpicFest merchandise. Kan købes på festivalen eller bestilles til afhentning.",
+    "allProducts": "Alle",
+    "sortFeatured": "Udvalgte",
+    "sortPriceLow": "Pris: Lav → Høj",
+    "sortPriceHigh": "Pris: Høj → Lav",
+    "sortName": "Navn A-Z",
+    "new": "Ny",
+    "soldOut": "Udsolgt",
+    "quickView": "Hurtig visning",
+    "noProducts": "Ingen produkter i denne kategori.",
+    "size": "Størrelse",
+    "purchaseNote": "Merchandise kan købes ved festivalens merch-stand. Online bestilling kommer snart.",
+    "infoTitle": "Festival Merch Stand",
+    "infoText": "Alt merchandise er tilgængeligt ved den officielle EpicFest merch-stand hos Gimle under festivalen. Priser er i DKK. Kortbetaling accepteres. Kom tidligt for det bedste udvalg — populære varer bliver hurtigt udsolgt!",
+    "showEur": "Vis EUR",
+    "showDkk": "Vis DKK"
   },
   "About": {
     "title": "Om EpicFest",

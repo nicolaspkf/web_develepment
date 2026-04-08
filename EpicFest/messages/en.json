@@ -9,6 +9,7 @@
       "venue": "Venue & Travel",
       "news": "News",
       "gallery": "Gallery",
+      "shop": "Shop",
       "about": "About"
     },
     "cta": {
@@ -70,6 +71,10 @@
     "newsletter": {
       "title": "Join the ranks",
       "subtitle": "Get lineup reveals, early bird tickets, and quest updates."
+    },
+    "merch": {
+      "title": "Festival Merch",
+      "availableAt": "Merchandise available at the festival venue. Prices are indicative."
     }
   },
   "Lineup": {
@@ -121,6 +126,25 @@
     "title": "Gallery",
     "filterByChapter": "Filter by Chapter",
     "chapter": "Chapter"
+  },
+  "Shop": {
+    "title": "Merch Shop",
+    "subtitle": "Official EpicFest merchandise. Available at the festival or order for pickup at the venue.",
+    "allProducts": "All",
+    "sortFeatured": "Featured",
+    "sortPriceLow": "Price: Low → High",
+    "sortPriceHigh": "Price: High → Low",
+    "sortName": "Name A-Z",
+    "new": "New",
+    "soldOut": "Sold Out",
+    "quickView": "Quick View",
+    "noProducts": "No products in this category.",
+    "size": "Size",
+    "purchaseNote": "Merchandise is available for purchase at the festival venue. Online ordering coming soon.",
+    "infoTitle": "Festival Merch Stand",
+    "infoText": "All merchandise is available at the official EpicFest merch stand at Gimle during the festival. Prices are in DKK. Card payments accepted. Arrive early for the best selection — popular items sell out fast!",
+    "showEur": "Show EUR",
+    "showDkk": "Show DKK"
   },
   "About": {
     "title": "About EpicFest",

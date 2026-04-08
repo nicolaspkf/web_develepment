@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -40,8 +42,21 @@ export default function VenueContent() {
           ))}
         </div>
 
-        {/* Transport */}
+        {/* Festival Maps */}
         <OrnamentalDivider variant="ornate" className="mb-12" />
+        <h3 className="font-[family-name:var(--font-heading)] text-2xl text-text-heading uppercase tracking-wider text-center mb-4">
+          {locale === "da" ? "Festivalområdet" : "Festival Realms"}
+        </h3>
+        <p className="text-center text-parchment-dark text-sm mb-8 max-w-xl mx-auto">
+          {locale === "da"
+            ? "Alle venues ligger inden for gåafstand af hinanden i Roskilde centrum (5-7 min gang)."
+            : "All venues are within walking distance of each other in central Roskilde (5-7 min walk)."}
+        </p>
+
+        <FestivalMaps locale={locale} />
+
+        {/* Transport */}
+        <OrnamentalDivider variant="ornate" className="mb-12 mt-16" />
         <h3 className="font-[family-name:var(--font-heading)] text-2xl text-text-heading uppercase tracking-wider text-center mb-8">
           {t("gettingThere")}
         </h3>
@@ -106,5 +121,94 @@ export default function VenueContent() {
         </div>
       </Container>
     </div>
+  );
+}
+
+function FestivalMaps({ locale }: { locale: string }) {
+  const [expanded, setExpanded] = useState<"area" | "tavern" | null>(null);
+
+  const maps = [
+    {
+      id: "area" as const,
+      src: "/maps/epicfest-area-map.png",
+      alt: "The Glorious Map of EpicFest — fantasy illustrated area map showing all venues",
+      title: locale === "da" ? "The Glorious Map of EpicFest" : "The Glorious Map of EpicFest",
+      description: locale === "da"
+        ? "Oversigt over alle venues: The Realm of Might & Magic, The Drunken Siege Inn, Gimle og The Raven Tavern."
+        : "Overview of all venues: The Realm of Might & Magic, The Drunken Siege Inn, Gimle, and The Raven Tavern.",
+    },
+    {
+      id: "tavern" as const,
+      src: "/maps/raven-tavern-map.png",
+      alt: "The Raven Tavern floor plan — showing bar, boardgames, and toilets",
+      title: "The Raven Tavern",
+      description: locale === "da"
+        ? "Detaljekort over The Raven Tavern med bar, brætspil og toiletter."
+        : "Detailed floor plan of The Raven Tavern with bar, boardgames, and toilets.",
+    },
+  ];
+
+  return (
+    <>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {maps.map((map) => (
+          <div key={map.id} className="group">
+            <button
+              onClick={() => setExpanded(expanded === map.id ? null : map.id)}
+              className="w-full text-left"
+            >
+              <div className="relative rounded-lg overflow-hidden border-2 border-border-subtle hover:border-gold/60 transition-colors">
+                <Image
+                  src={map.src}
+                  alt={map.alt}
+                  width={800}
+                  height={800}
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-900/70 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <h4 className="font-[family-name:var(--font-heading)] text-lg text-gold uppercase tracking-wider">
+                    {map.title}
+                  </h4>
+                  <p className="text-xs text-parchment-dark mt-1">{map.description}</p>
+                  <span className="inline-block mt-2 text-xs text-gold/70 uppercase tracking-wider">
+                    {expanded === map.id
+                      ? (locale === "da" ? "Klik for at lukke" : "Click to close")
+                      : (locale === "da" ? "Klik for at forstørre" : "Click to enlarge")}
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Expanded lightbox */}
+      {expanded && (
+        <div
+          className="fixed inset-0 z-50 bg-dark-900/95 flex items-center justify-center p-4 cursor-pointer"
+          onClick={() => setExpanded(null)}
+        >
+          <div className="relative max-w-4xl w-full max-h-[90vh]">
+            <Image
+              src={maps.find((m) => m.id === expanded)!.src}
+              alt={maps.find((m) => m.id === expanded)!.alt}
+              width={1600}
+              height={1600}
+              className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+            />
+            <button
+              onClick={() => setExpanded(null)}
+              className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center rounded-full bg-dark-800/80 border border-border-subtle text-gold hover:bg-dark-600 transition-colors"
+              aria-label="Close"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

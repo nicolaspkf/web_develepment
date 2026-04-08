@@ -13,6 +13,7 @@ const navItems = [
   { key: "schedule", href: "/schedule" },
   { key: "quests", href: "/quests" },
   { key: "tickets", href: "/tickets" },
+  { key: "shop", href: "/shop" },
   { key: "venue", href: "/venue" },
   { key: "news", href: "/news" },
   { key: "gallery", href: "/gallery" },

@@ -27,94 +27,131 @@ export default function FireText({ children, className = "" }: FireTextProps) {
     if (!ctx) return;
 
     const rect = containerRef.current.getBoundingClientRect();
-    const padX = 6;
-    const flameRise = 18;
+    const padX = 8;
+    const flameRise = 34;
     const W = Math.ceil(rect.width + padX * 2);
     const H = Math.ceil(rect.height + flameRise);
     canvas.width = W;
     canvas.height = H;
 
-    const fw = Math.ceil(W / 2);
-    const fh = Math.ceil(H / 2);
-    const fire = new Uint8Array(fw * fh);
+    // Fire simulation at full resolution
+    const fw = W;
+    const fh = H;
+    const fire = new Float32Array(fw * fh);
 
-    const palette: [number, number, number, number][] = [
-      [0,0,0,0],[30,0,0,35],[55,2,0,55],[75,5,0,72],[95,8,0,88],
-      [115,12,0,102],[132,18,0,115],[148,24,0,126],[162,32,0,136],
-      [176,42,0,144],[188,54,0,152],[198,66,0,158],[208,80,0,164],
-      [216,94,0,168],[224,108,0,172],[230,120,0,175],[235,132,2,178],
-      [238,144,6,180],[241,156,12,181],[243,168,20,182],[244,178,30,182],
-      [245,188,42,181],[246,196,54,179],[247,204,68,176],[248,210,82,172],
-      [249,216,98,167],[250,222,114,160],[251,226,132,152],[252,230,150,142],
-      [252,234,168,130],[253,238,186,116],[253,240,204,100],[254,242,218,84],
-      [254,244,230,68],[255,246,240,52],[255,248,246,38],[255,250,252,24],
-    ];
+    // Smooth gradient palette with more intermediate colors
+    const paletteSize = 64;
+    const palette: [number, number, number, number][] = [];
+    for (let i = 0; i < paletteSize; i++) {
+      const t = i / (paletteSize - 1);
+      let r: number, g: number, b: number, a: number;
+      if (t < 0.15) {
+        // Transparent to dark red
+        const s = t / 0.15;
+        r = Math.round(s * 80);
+        g = 0;
+        b = 0;
+        a = Math.round(s * 100);
+      } else if (t < 0.4) {
+        // Dark red to bright orange
+        const s = (t - 0.15) / 0.25;
+        r = Math.round(80 + s * 175);
+        g = Math.round(s * 80);
+        b = 0;
+        a = Math.round(100 + s * 80);
+      } else if (t < 0.7) {
+        // Orange to yellow
+        const s = (t - 0.4) / 0.3;
+        r = 255;
+        g = Math.round(80 + s * 140);
+        b = Math.round(s * 30);
+        a = Math.round(180 + s * 40);
+      } else if (t < 0.9) {
+        // Yellow to bright white-yellow
+        const s = (t - 0.7) / 0.2;
+        r = 255;
+        g = Math.round(220 + s * 35);
+        b = Math.round(30 + s * 180);
+        a = Math.round(220 - s * 60);
+      } else {
+        // White-hot tip (thin, fading)
+        const s = (t - 0.9) / 0.1;
+        r = 255;
+        g = 255;
+        b = Math.round(210 + s * 45);
+        a = Math.round(160 - s * 140);
+      }
+      palette.push([r, g, b, a]);
+    }
 
     let frame = 0;
 
     const animate = () => {
       frame++;
 
-      // Update every 3rd frame → slower, more realistic flame movement
-      if (frame % 3 === 0) {
+      // Update fire simulation every 2nd frame
+      if (frame % 2 === 0) {
+        // Seed bottom row with random heat sources
         for (let x = 0; x < fw; x++) {
           const idx = (fh - 1) * fw + x;
           const r = Math.random();
-          if (r > 0.68) {
-            fire[idx] = 28 + Math.floor(Math.random() * 9);
-          } else if (r > 0.50) {
-            fire[idx] = 12 + Math.floor(Math.random() * 12);
+          if (r > 0.62) {
+            fire[idx] = 45 + Math.random() * 19;
+          } else if (r > 0.40) {
+            fire[idx] = 18 + Math.random() * 20;
           } else {
-            fire[idx] = 0;
+            fire[idx] = Math.max(0, fire[idx] * 0.3);
           }
         }
 
+        // Propagate fire upward with smooth decay
         for (let y = 0; y < fh - 1; y++) {
           for (let x = 0; x < fw; x++) {
-            const srcVal = fire[(y + 1) * fw + x];
+            // Sample from below with wider spread for smoother flames
+            const left = Math.max(0, x - 1);
+            const right = Math.min(fw - 1, x + 1);
+            const below = y + 1;
+            const below2 = Math.min(fh - 1, y + 2);
 
-            if (srcVal === 0) {
-              fire[y * fw + x] = Math.max(0, fire[y * fw + x] - 2);
-              continue;
-            }
+            // Weighted average of neighbors below for smooth propagation
+            const v = (
+              fire[below * fw + left] * 0.15 +
+              fire[below * fw + x] * 0.45 +
+              fire[below * fw + right] * 0.15 +
+              fire[below2 * fw + x] * 0.25
+            );
 
+            // Random drift
             const drift = Math.floor(Math.random() * 3) - 1;
             const destX = Math.min(fw - 1, Math.max(0, x + drift));
 
-            const decayRand = Math.random();
-            let decay: number;
-            if (decayRand > 0.75) decay = 0;
-            else if (decayRand > 0.35) decay = 1;
-            else if (decayRand > 0.10) decay = 2;
-            else decay = 3;
-
-            // Gradual height-based decay — flames reach higher but thin out
+            // Height-based decay — flames thin out as they rise
             const heightRatio = 1 - (y / fh);
-            if (heightRatio > 0.45) decay += 1;
-            if (heightRatio > 0.70) decay += 1;
-            if (heightRatio > 0.88) decay += 2;
+            let decay = 0.6 + Math.random() * 0.8;
+            if (heightRatio > 0.4) decay += 0.3;
+            if (heightRatio > 0.65) decay += 0.5;
+            if (heightRatio > 0.85) decay += 1.0;
 
-            fire[y * fw + destX] = Math.max(0, srcVal - decay);
+            fire[y * fw + destX] = Math.max(0, v - decay);
           }
         }
 
-        // Kill top 2 rows
+        // Fade top rows
         for (let x = 0; x < fw; x++) {
-          fire[x] = 0;
-          fire[fw + x] = 0;
+          fire[x] *= 0.1;
+          fire[fw + x] *= 0.3;
+          fire[fw * 2 + x] *= 0.6;
         }
       }
 
-      // Ember pulse for text color: slow sine oscillation
-      const pulse = Math.sin(frame * 0.025); // slow pulse
-      const pulseNorm = (pulse + 1) / 2; // 0 to 1
-      // Interpolate between dark ember (near-black/dark red) and bright orange
-      const tr = Math.round(60 + pulseNorm * 195);  // 60 → 255
-      const tg = Math.round(15 + pulseNorm * 120);  // 15 → 135
-      const tb = Math.round(0 + pulseNorm * 10);    // 0 → 10
+      // Ember pulse for text color
+      const pulse = Math.sin(frame * 0.025);
+      const pulseNorm = (pulse + 1) / 2;
+      const tr = Math.round(60 + pulseNorm * 195);
+      const tg = Math.round(15 + pulseNorm * 120);
+      const tb = Math.round(0 + pulseNorm * 10);
       const textColor = `rgb(${tr},${tg},${tb})`;
 
-      // Glow intensity follows pulse
       const glowStrength = 0.3 + pulseNorm * 0.7;
       textEl.style.color = textColor;
       textEl.style.textShadow = [
@@ -127,21 +164,22 @@ export default function FireText({ children, className = "" }: FireTextProps) {
         `0 0 ${16 + pulseNorm * 16}px rgba(255,60,0,${glowStrength * 0.35})`,
       ].join(", ");
 
-      // Render fire
+      // Render fire to canvas
       const imageData = ctx.createImageData(W, H);
       for (let y = 0; y < H; y++) {
         for (let x = 0; x < W; x++) {
-          const fx = Math.min(fw - 1, Math.floor(x / 2));
-          const fy = Math.min(fh - 1, Math.floor(y / 2));
-          const val = fire[fy * fw + fx];
-          if (val === 0) continue;
+          const val = fire[y * fw + x];
+          if (val < 0.5) continue;
 
-          const [r, g, b, a] = palette[Math.min(36, val)];
+          // Map float value to palette index
+          const pIdx = Math.min(paletteSize - 1, Math.floor(val * (paletteSize / 64)));
+          const [r, g, b, a] = palette[pIdx];
 
+          // Edge fade
           let fade = 1;
-          if (x < 5) fade *= x / 5;
-          if (x > W - 5) fade *= (W - x) / 5;
-          if (y < 6) fade *= y / 6;
+          if (x < 6) fade *= x / 6;
+          if (x > W - 6) fade *= (W - x) / 6;
+          if (y < 8) fade *= y / 8;
 
           const idx = (y * W + x) * 4;
           imageData.data[idx] = r;
@@ -151,13 +189,13 @@ export default function FireText({ children, className = "" }: FireTextProps) {
         }
       }
       ctx.putImageData(imageData, 0, 0);
+
       animRef.current = requestAnimationFrame(animate);
     };
 
     animate();
     return () => {
       cancelAnimationFrame(animRef.current);
-      // Reset text style on unhover
       if (textEl) {
         textEl.style.color = "";
         textEl.style.textShadow = "none";
@@ -176,15 +214,15 @@ export default function FireText({ children, className = "" }: FireTextProps) {
         ref={canvasRef}
         className="absolute pointer-events-none"
         style={{
-          left: "-6px",
+          left: "-8px",
           bottom: "0px",
-          width: "calc(100% + 12px)",
-          height: "calc(100% + 18px)",
+          width: "calc(100% + 16px)",
+          height: "calc(100% + 34px)",
           opacity: hovered ? 1 : 0,
           transition: "opacity 0.15s ease",
           mixBlendMode: "screen",
+          filter: "blur(0.8px)",
           zIndex: 0,
-          imageRendering: "pixelated",
         }}
         aria-hidden="true"
       />

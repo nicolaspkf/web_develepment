@@ -10,7 +10,7 @@ export const TICKET_URL = "https://gimle.dk";
 export const FACEBOOK_URL = "https://facebook.com/EpicFestDK";
 export const INSTAGRAM_URL = "https://instagram.com/epicfestdk";
 export const YOUTUBE_URL = "https://youtube.com/@EpicFestdk";
-export const SPOTIFY_URL = "https://open.spotify.com";
+export const SPOTIFY_URL = "https://open.spotify.com/playlist/1qDMqpBJuvJEhfEWfMprKj";
 
 export const STAGES = [
   "The Realm of Might & Magic",

@@ -9,6 +9,6 @@ export function proxy(request: import("next/server").NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|studio|svgs|images|fonts).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|studio|svgs|images|fonts|maps|merch).*)",
   ],
 };

@@ -46,7 +46,7 @@ export const accommodations: Accommodation[] = [
     name: "Four Points Flex by Sheraton",
     distance: "10 min walk",
     priceRange: "800-1200 DKK/night",
-    bookingUrl: "https://www.marriott.com",
+    bookingUrl: "https://www.marriott.com/en-us/hotels/cphrf-four-points-flex-roskilde/overview/",
   },
   {
     id: "scandic",
@@ -67,7 +67,7 @@ export const accommodations: Accommodation[] = [
     name: "Roskilde Camping",
     distance: "8 min drive",
     priceRange: "100-300 DKK/night",
-    bookingUrl: "https://rfroskildecamping.dk",
+    bookingUrl: "https://roskildecamping.dk/",
   },
 ];
 
