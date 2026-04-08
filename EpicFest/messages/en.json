@@ -1,0 +1,134 @@
+{
+  "Common": {
+    "nav": {
+      "home": "Home",
+      "lineup": "Lineup",
+      "schedule": "Schedule",
+      "quests": "Quest Board",
+      "tickets": "Tickets",
+      "venue": "Venue & Travel",
+      "news": "News",
+      "gallery": "Gallery",
+      "about": "About"
+    },
+    "cta": {
+      "buyTickets": "BUY TICKETS",
+      "readMore": "Read More",
+      "viewLineup": "VIEW LINEUP",
+      "exploreLineup": "EXPLORE LINEUP",
+      "joinQuest": "JOIN QUEST",
+      "visitShop": "VISIT SHOP",
+      "getTickets": "GET TICKETS"
+    },
+    "footer": {
+      "newsletter": "Join the ranks",
+      "newsletterSub": "Get lineup reveals, early bird tickets, and quest updates.",
+      "emailPlaceholder": "Your email",
+      "subscribe": "Subscribe",
+      "rights": "All rights reserved.",
+      "customBrewed": "Custom-brewed by EpicFest"
+    },
+    "language": "Language",
+    "cookieConsent": "We use cookies to improve your experience.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "Home": {
+    "hero": {
+      "chapter": "Chapter IV",
+      "subtitle": "Tales of Might & Magic",
+      "date": "April 10-11, 2026 · Roskilde, Denmark"
+    },
+    "stats": {
+      "days": "Days",
+      "stages": "Stages",
+      "bands": "Bands",
+      "countries": "Countries",
+      "warriors": "Warriors"
+    },
+    "story": {
+      "title": "The Story So Far",
+      "description": "From a humble gathering of 550 warriors to the Nordic region's most epic power metal festival with 3,000+ attendees from 28+ countries."
+    },
+    "quests": {
+      "title": "More than metal. It's an adventure.",
+      "dnd": "D&D Quests",
+      "warhammer": "Warhammer Forge",
+      "gaming": "Gaming Corner",
+      "tavern": "The Raven Tavern"
+    },
+    "news": {
+      "title": "Latest News",
+      "readAll": "View All News"
+    },
+    "countdown": {
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds"
+    },
+    "newsletter": {
+      "title": "Join the ranks",
+      "subtitle": "Get lineup reveals, early bird tickets, and quest updates."
+    }
+  },
+  "Lineup": {
+    "title": "Lineup",
+    "filterAll": "All",
+    "filterDay": "Day",
+    "filterStage": "Stage",
+    "headliners": "Headliners",
+    "fullLineup": "Full Lineup",
+    "playingAt": "Playing"
+  },
+  "Schedule": {
+    "title": "Schedule",
+    "addToCalendar": "Add to Calendar",
+    "printSchedule": "Print Schedule"
+  },
+  "Quests": {
+    "title": "The Quest Board",
+    "subtitle": "Choose your adventure between the battles.",
+    "spotsLeft": "spots left",
+    "full": "Fully Booked",
+    "difficulty": "Difficulty"
+  },
+  "Tickets": {
+    "title": "Tickets",
+    "adventurer": "Adventurer Pass",
+    "champion": "Champion Pass",
+    "singleDay": "Single Day Pass",
+    "soldOut": "Sold Out",
+    "buyNow": "BUY NOW",
+    "includes": "Includes",
+    "internationalGuide": "Guide for International Guests"
+  },
+  "Venue": {
+    "title": "Venue & Travel",
+    "gettingThere": "Getting There",
+    "accommodation": "Accommodation",
+    "aboutRoskilde": "About Roskilde"
+  },
+  "News": {
+    "title": "News",
+    "categories": {
+      "lineup": "Lineup Announcement",
+      "update": "Festival Update",
+      "recap": "Recap"
+    }
+  },
+  "Gallery": {
+    "title": "Gallery",
+    "filterByChapter": "Filter by Chapter",
+    "chapter": "Chapter"
+  },
+  "About": {
+    "title": "About EpicFest",
+    "story": "The EpicFest Story",
+    "team": "The Team",
+    "pastEditions": "Past Editions",
+    "press": "Press & Media",
+    "faq": "FAQ",
+    "contact": "Contact"
+  }
+}
